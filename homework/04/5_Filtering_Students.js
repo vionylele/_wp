@@ -5,7 +5,6 @@ const students = [
 ];
 
 const passingStudents = [];
-
 for (let s of students) {
   if (s.score >= 60) {
     passingStudents.push(s.name);

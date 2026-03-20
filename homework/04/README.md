@@ -7,17 +7,26 @@ AI Q&A -- https://gemini.google.com/share/54d5fcd5f911
 ```sh
 ....
 
-ccc@teacherdeiMac 04 % node 10-score.js
+node 1_Basic_Grade_Classifier.js
 Your grade is: B
+node 2_The_Accumulator.js
 Total sum: 15
+node 3_Find_the_Smallest_Number.js
 The smallest number is: 1
+node 4_User_Profile_Management.js
 { name: "John Doe", age: 31, email: "john.doe@example.com" }
+node 5_Filtering_Students.js
 Students who passed: Bob, Charlie
 Laptop is available for $1200
+node 6_JSON_Data_Parsing.js
+node 7_Shopping_Cart_Total.js
 Total cart value: $85
+node 8_Search_for_a_Fruit.js
 true
+node 9_Nested_Data_Access.js
 Room 101 is taught by Mr. Smith
 Room 102 is taught by Ms. Johnson
+node 10_Factorial_Calculator.js
 Factorial of 5 is: 120
 ```
 
