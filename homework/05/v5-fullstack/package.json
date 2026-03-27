@@ -1,0 +1,14 @@
+{
+  "name": "simple-blog",
+  "version": "1.0.0",
+  "description": "Simple Blog System with Node.js + SQLite + Markdown",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "marked": "^9.1.2",
+    "sqlite3": "^6.0.1"
+  }
+}

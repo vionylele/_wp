@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog v3 - With JavaScript</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; background: #f5f5f5; }
+        h1 { text-align: center; color: #333; margin-bottom: 20px; }
+        .form-box { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        input, textarea { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 5px; }
+        textarea { height: 100px; resize: vertical; }
+        button { background: #667eea; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #5568d3; }
+        .post { background: white; padding: 15px; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .post h3 { color: #667eea; margin-bottom: 5px; }
+        .meta { color: #999; font-size: 12px; margin-bottom: 10px; }
+        .delete-btn { color: #e74c3c; cursor: pointer; float: right; }
+    </style>
+</head>
+<body>
+    <h1>Simple Blog</h1>
+    <div class="form-box">
+        <h2>Create Post</h2>
+        <form id="postForm">
+            <input type="text" id="title" placeholder="Post Title" required>
+            <input type="text" id="author" placeholder="Your Name" required>
+            <textarea id="content" placeholder="Write your content..." required></textarea>
+            <button type="submit">Publish</button>
+        </form>
+    </div>
+    <h2>Recent Posts</h2>
+    <div id="postsList">
+        <p style="color: #999; text-align: center;">No posts yet.</p>
+    </div>
+
+    <script>
+        const posts = [];
+
+        document.getElementById('postForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const title = document.getElementById('title').value;
+            const author = document.getElementById('author').value;
+            const content = document.getElementById('content').value;
+            
+            posts.push({
+                id: Date.now(),
+                title,
+                author,
+                content,
+                date: new Date().toLocaleDateString()
+            });
+            
+            document.getElementById('title').value = '';
+            document.getElementById('author').value = '';
+            document.getElementById('content').value = '';
+            
+            renderPosts();
+        });
+
+        function deletePost(id) {
+            const index = posts.findIndex(p => p.id === id);
+            if (index > -1) {
+                posts.splice(index, 1);
+                renderPosts();
+            }
+        }
+
+        function renderPosts() {
+            const container = document.getElementById('postsList');
+            
+            if (posts.length === 0) {
+                container.innerHTML = '<p style="color: #999; text-align: center;">No posts yet.</p>';
+                return;
+            }
+            
+            container.innerHTML = posts.slice().reverse().map(post => `
+                <div class="post">
+                    <h3>${escapeHtml(post.title)}</h3>
+                    <div class="meta">By ${escapeHtml(post.author)} | ${post.date} <span class="delete-btn" onclick="deletePost(${post.id})">Delete</span></div>
+                    <p>${escapeHtml(post.content)}</p>
+                </div>
+            `).join('');
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
+</body>
+</html>
