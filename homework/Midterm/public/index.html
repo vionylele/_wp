@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>School Administration System</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="sidebar">
+    <h2>SAS</h2>
+    <nav>
+      <button class="nav-link active" data-page="dashboard">Dashboard</button>
+      <button class="nav-link" data-page="students">Students</button>
+      <button class="nav-link" data-page="courses">Courses</button>
+      <button class="nav-link" data-page="enrollments">Enrollments</button>
+    </nav>
+  </div>
+  
+  <div class="main">
+    <header>
+      <h1>School Administration System</h1>
+    </header>
+    
+    <main id="content">
+      <!-- Dashboard Page -->
+      <section id="dashboard" class="page active">
+        <div class="page-header">
+          <h2>Dashboard</h2>
+          <button class="btn btn-danger" onclick="resetDatabase()">Reset All Data</button>
+        </div>
+        <div class="stats">
+          <div class="stat-card">
+            <h3>Total Students</h3>
+            <p class="stat-number" id="stat-students">0</p>
+          </div>
+          <div class="stat-card">
+            <h3>Total Courses</h3>
+            <p class="stat-number" id="stat-courses">0</p>
+          </div>
+          <div class="stat-card">
+            <h3>Total Enrollments</h3>
+            <p class="stat-number" id="stat-enrollments">0</p>
+          </div>
+        </div>
+        <div class="recent-section">
+          <h3>Recent Students</h3>
+          <table id="recent-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Grade</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+      
+<!-- Students Page -->
+      <section id="students" class="page">
+        <div class="page-header">
+          <h2>Students</h2>
+          <button class="btn btn-primary add-student">Add Student</button>
+        </div>
+        <table id="students-table">
+          <thead>
+            <tr>
+              <th onclick="handleSort('id')" class="sortable">ID</th>
+              <th onclick="handleSort('name')" class="sortable">Name</th>
+              <th onclick="handleSort('email')" class="sortable">Email</th>
+              <th onclick="handleSort('phone')" class="sortable">Phone</th>
+              <th onclick="handleSort('grade')" class="sortable">Grade</th>
+              <th onclick="handleSort('enrollment_date')" class="sortable">Enrollment Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+      
+      <!-- Courses Page -->
+      <section id="courses" class="page">
+        <div class="page-header">
+          <h2>Courses</h2>
+          <button class="btn btn-primary add-course">Add Course</button>
+        </div>
+        <table id="courses-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Code</th>
+              <th>Name</th>
+              <th>Credits</th>
+              <th>Instructor</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+      
+      <!-- Enrollments Page -->
+      <section id="enrollments" class="page">
+        <div class="page-header">
+          <h2>Enrollments</h2>
+          <button class="btn btn-primary add-enrollment">Add Enrollment</button>
+        </div>
+        <table id="enrollments-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Student</th>
+              <th>Course</th>
+              <th>Semester</th>
+              <th>Grade</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+    </main>
+  </div>
+  
+  <!-- Student Modal -->
+  <div id="studentModal" class="modal">
+    <div class="modal-content">
+      <span class="close modal-close" data-modal="studentModal">&times;</span>
+      <h3 id="studentModalTitle">Add Student</h3>
+      <form id="studentForm">
+        <input type="hidden" id="studentId">
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" id="studentName" required>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="studentEmail" required>
+        </div>
+        <div class="form-group">
+          <label>Phone</label>
+          <input type="text" id="studentPhone">
+        </div>
+        <div class="form-group">
+          <label>Grade</label>
+          <input type="number" id="studentGrade" min="1" max="12">
+        </div>
+        <div class="form-group">
+          <label>Enrollment Date</label>
+          <input type="date" id="studentEnrollmentDate">
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+      </form>
+    </div>
+  </div>
+  
+  <!-- Course Modal -->
+  <div id="courseModal" class="modal">
+    <div class="modal-content">
+      <span class="close modal-close" data-modal="courseModal">&times;</span>
+      <h3 id="courseModalTitle">Add Course</h3>
+      <form id="courseForm">
+        <input type="hidden" id="courseId">
+        <div class="form-group">
+          <label>Course Code</label>
+          <input type="text" id="courseCode" required>
+        </div>
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" id="courseName" required>
+        </div>
+        <div class="form-group">
+          <label>Credits</label>
+          <input type="number" id="courseCredits" min="1" max="6">
+        </div>
+        <div class="form-group">
+          <label>Instructor</label>
+          <input type="text" id="courseInstructor">
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+      </form>
+    </div>
+  </div>
+  
+  <!-- Enrollment Modal -->
+  <div id="enrollmentModal" class="modal">
+    <div class="modal-content">
+      <span class="close modal-close" data-modal="enrollmentModal">&times;</span>
+      <h3>Add Enrollment</h3>
+      <form id="enrollmentForm">
+        <input type="hidden" id="enrollmentId">
+        <div class="form-group">
+          <label>Student</label>
+          <select id="enrollmentStudent" required></select>
+        </div>
+        <div class="form-group">
+          <label>Course</label>
+          <select id="enrollmentCourse" required></select>
+        </div>
+        <div class="form-group">
+          <label>Semester</label>
+          <input type="text" id="enrollmentSemester" placeholder="e.g., Fall 2024" required>
+        </div>
+        <div class="form-group">
+          <label>Grade</label>
+          <input type="number" id="enrollmentGrade" min="0" max="100" placeholder="0-100">
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+      </form>
+    </div>
+  </div>
+  
+  <script src="/app.js"></script>
+</body>
+</html>
