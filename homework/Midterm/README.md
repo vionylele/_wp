@@ -1,56 +1,19 @@
-# School Administration System
+# Midterm Exam Project: Student Management System
 
-## Project Overview
-A full-stack web application for managing school operations including student records, courses, and enrollments. Built with Node.js/Express backend and SQLite database.
+## AI and Originality Declaration
+- **AI Tool Usage:** Yes, OpenCode (AI-powered Python Code Interpreter) was used to automate the structure, file scanning, and generation of this README documentation.
 
-## Technology Stack
-- **Backend**: Node.js, Express.js
-- **Database**: SQLite (via sql.js)
-- **Frontend**: Vanilla HTML, CSS, JavaScript
+## Assignment Description
+A full-stack web application for managing school operations including student records, courses, and enrollments. Built with a Node.js/Express backend, SQLite database (sql.js), and a vanilla HTML/CSS/JavaScript frontend. Features full CRUD operations, a real-time dashboard, dynamic sorting, sequential ID re-indexing, and a numeric grade system (0-100).
 
-## Features
-- **Dashboard**: Overview statistics and recent students
-- **Student Management**: Add, edit, delete, view students
-- **Course Management**: Add, edit, delete, view courses
-- **Enrollment Management**: Enroll students in courses, track grades
+## Files Included
+- package-lock.json
+- package.json
+- public/app.js
+- public/index.html
+- public/styles.css
+- school.db
+- server.js
 
-## Project Structure
-```
-Midterm/
-├── server.js          # Express server with API routes
-├── package.json      # Dependencies
-├── public/
-│   ├── index.html    # Main HTML interface
-│   ├── styles.css    # Styling
-│   └── app.js        # Frontend JavaScript
-└── school.db        # SQLite database (auto-generated)
-```
-
-## API Endpoints
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | /api/students | List all students |
-| POST | /api/students | Create student |
-| GET | /api/students/:id | Get student |
-| PUT | /api/students/:id | Update student |
-| DELETE | /api/students/:id | Delete student |
-| GET | /api/courses | List all courses |
-| POST | /api/courses | Create course |
-| PUT | /api/courses/:id | Update course |
-| DELETE | /api/courses/:id | Delete course |
-| GET | /api/enrollments | List enrollments |
-| POST | /api/enrollments | Create enrollment |
-| DELETE | /api/enrollments/:id | Delete enrollment |
-| GET | /api/dashboard | Dashboard statistics |
-
-## Running the Project
-```bash
-npm install
-npm start
-```
-Server runs on http://localhost:3000
-
-## Database Schema
-- **students**: id, name, email, phone, grade, enrollment_date
-- **courses**: id, code, name, credits, instructor
-- **enrollments**: id, student_id, course_id, semester, grade
+## How to Run
+Run `npm install` then `npm start` (or `node server.js`). Open http://localhost:3000.
