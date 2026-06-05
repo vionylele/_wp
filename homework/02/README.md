@@ -1,7 +1,9 @@
 # Homework 02: Personal Information Form
 
 ## AI and Originality Declaration
-- **AI Tool Usage:** Yes, OpenCode (AI-powered Python Code Interpreter) was used to automate the structure, file scanning, and generation of this README documentation.
+**AI Tool Usage:** 
+-This project/file was generated using OpenCode.
+-OpenCode (AI-powered Python Code Interpreter) was used to automate the structure, file scanning, and generation of this README documentation.
 
 ## Assignment Description
 A personal data entry form built with HTML and CSS. Includes fields for name, gender, date of birth, email, phone, occupation, and address with form validation and styled UI components.
