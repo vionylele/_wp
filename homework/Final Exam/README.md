@@ -5,6 +5,12 @@
 ## Final Exam Declaration
 * **Project Generation:** This project/file was generated using OpenCode.
 * **Automation:** OpenCode (AI-powered Python Code Interpreter) was used to automate the structure, file scanning, and generation of this README documentation.
+<<<<<<< HEAD
+=======
+
+## Final Project Description
+(To be added once final exam deliverables are finalized.)
+>>>>>>> 2136b56cfe60499436ef4243abf0a30d9df896b9
 
 ---
 
