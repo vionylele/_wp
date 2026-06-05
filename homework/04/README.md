@@ -1,9 +1,8 @@
 # Homework 04: JavaScript Fundamentals Exercises
 
 ## AI and Originality Declaration
-**AI Tool Usage:** 
--This project/file was generated using OpenCode.
--OpenCode (AI-powered Python Code Interpreter) was used to automate the structure, file scanning, and generation of this README documentation.
+* **Project Generation:** This project/file was generated using OpenCode.
+* **Automation:** OpenCode (AI-powered Python Code Interpreter) was used to automate the structure, file scanning, and generation of this README documentation.
 
 ## Assignment Description
 A set of 10 JavaScript exercises covering core programming concepts including conditional logic (if-else), loops (while), arrays, objects, JSON parsing, and functions.

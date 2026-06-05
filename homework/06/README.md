@@ -1,9 +1,8 @@
 # Homework 06: JavaScript Advanced Concepts
 
 ## AI and Originality Declaration
-**AI Tool Usage:** 
--This project/file was generated using OpenCode.
--OpenCode (AI-powered Python Code Interpreter) was used to automate the structure, file scanning, and generation of this README documentation.
+* **Project Generation:** This project/file was generated using OpenCode.
+* **Automation:** OpenCode (AI-powered Python Code Interpreter) was used to automate the structure, file scanning, and generation of this README documentation.
 
 ## Assignment Description
 A collection of JavaScript exercises exploring advanced topics such as callbacks, Immediately Invoked Function Expressions (IIFE), arrow functions, higher-order functions, pass-by-reference behavior, and asynchronous delayed execution with setTimeout.
