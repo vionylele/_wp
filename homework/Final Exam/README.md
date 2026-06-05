@@ -3,10 +3,8 @@
 ---
 
 ## Final Exam Declaration
-- **AI Tool Usage:** Yes, OpenCode (AI-powered Python Code Interpreter) was used to automate the structure, file scanning, and compilation of this portfolio README documentation.
-
-## Final Project Description
-(To be added once final exam deliverables are finalized.)
+* **Project Generation:** This project/file was generated using OpenCode.
+* **Automation:** OpenCode (AI-powered Python Code Interpreter) was used to automate the structure, file scanning, and generation of this README documentation.
 
 ---
 
@@ -25,7 +23,8 @@
 # Homework 01: Personal Profile Page
 
 ## AI and Originality Declaration
-- **AI Tool Usage:** Yes, OpenCode (AI-powered Python Code Interpreter) was used to automate the structure, file scanning, and generation of this README documentation.
+* **Project Generation:** This project/file was generated using OpenCode.
+* **Automation:** OpenCode (AI-powered Python Code Interpreter) was used to automate the structure, file scanning, and generation of this README documentation.
 
 ## Assignment Description
 A personal profile card page built with HTML and CSS. Displays the student's name, student ID, and department in a centered card layout with a blue avatar circle and clean typography.
@@ -41,7 +40,8 @@ Open `aboutme.html` in any modern web browser.
 # Homework 02: Personal Information Form
 
 ## AI and Originality Declaration
-- **AI Tool Usage:** Yes, OpenCode (AI-powered Python Code Interpreter) was used to automate the structure, file scanning, and generation of this README documentation.
+* **Project Generation:** This project/file was generated using OpenCode.
+* **Automation:** OpenCode (AI-powered Python Code Interpreter) was used to automate the structure, file scanning, and generation of this README documentation.
 
 ## Assignment Description
 A personal data entry form built with HTML and CSS. Includes fields for name, gender, date of birth, email, phone, occupation, and address with form validation and styled UI components.
@@ -74,7 +74,8 @@ Run `node hello.js` in your terminal.
 # Homework 04: JavaScript Fundamentals Exercises
 
 ## AI and Originality Declaration
-- **AI Tool Usage:** Yes, OpenCode (AI-powered Python Code Interpreter) was used to automate the structure, file scanning, and generation of this README documentation.
+* **Project Generation:** This project/file was generated using OpenCode.
+* **Automation:** OpenCode (AI-powered Python Code Interpreter) was used to automate the structure, file scanning, and generation of this README documentation.
 
 ## Assignment Description
 A set of 10 JavaScript exercises covering core programming concepts including conditional logic (if-else), loops (while), arrays, objects, JSON parsing, and functions.
@@ -99,7 +100,8 @@ Run each `.js` file with `node <filename>.js` in your terminal.
 # Homework 05: Progressive Web Development (HTML → Full-Stack)
 
 ## AI and Originality Declaration
-- **AI Tool Usage:** Yes, OpenCode (AI-powered Python Code Interpreter) was used to automate the structure, file scanning, and generation of this README documentation.
+* **Project Generation:** This project/file was generated using OpenCode.
+* **Automation:** OpenCode (AI-powered Python Code Interpreter) was used to automate the structure, file scanning, and generation of this README documentation.
 
 ## Assignment Description
 A progressive multi-version web project that evolves through five stages: a basic HTML page (v1-basic), CSS-styled version (v2-css), JavaScript-enhanced interactivity (v3-javascript), a Node.js/Express backend server (v4-nodejs), and a full-stack application with SQLite database integration (v5-fullstack).
@@ -125,7 +127,8 @@ Navigate to `v4-nodejs`, run `node server.js`, then open http://localhost:3000.
 # Homework 06: JavaScript Advanced Concepts
 
 ## AI and Originality Declaration
-- **AI Tool Usage:** Yes, OpenCode (AI-powered Python Code Interpreter) was used to automate the structure, file scanning, and generation of this README documentation.
+* **Project Generation:** This project/file was generated using OpenCode.
+* **Automation:** OpenCode (AI-powered Python Code Interpreter) was used to automate the structure, file scanning, and generation of this README documentation.
 
 ## Assignment Description
 A collection of JavaScript exercises exploring advanced topics such as callbacks, Immediately Invoked Function Expressions (IIFE), arrow functions, higher-order functions, pass-by-reference behavior, and asynchronous delayed execution with setTimeout.
@@ -150,7 +153,8 @@ Run each `.js` file with `node <filename>.js` in your terminal.
 # Homework 07: JavaScript Practical Applications
 
 ## AI and Originality Declaration
-- **AI Tool Usage:** Yes, OpenCode (AI-powered Python Code Interpreter) was used to automate the structure, file scanning, and generation of this README documentation.
+* **Project Generation:** This project/file was generated using OpenCode.
+* **Automation:** OpenCode (AI-powered Python Code Interpreter) was used to automate the structure, file scanning, and generation of this README documentation.
 
 ## Assignment Description
 A collection of JavaScript exercises focusing on practical programming patterns including property access, destructuring assignment, array forEach iteration, URL query parameter parsing, callbacks, JSON parsing, mock database queries, template logic, string sorting, and error handling.
@@ -175,7 +179,8 @@ Run each `.js` file with `node <filename>.js` in your terminal.
 # Midterm Exam Project: Student Management System
 
 ## AI and Originality Declaration
-- **AI Tool Usage:** Yes, OpenCode (AI-powered Python Code Interpreter) was used to automate the structure, file scanning, and generation of this README documentation.
+* **Project Generation:** This project/file was generated using OpenCode.
+* **Automation:** OpenCode (AI-powered Python Code Interpreter) was used to automate the structure, file scanning, and generation of this README documentation.
 
 ## Assignment Description
 A full-stack web application for managing school operations including student records, courses, and enrollments. Built with a Node.js/Express backend, SQLite database (sql.js), and a vanilla HTML/CSS/JavaScript frontend. Features full CRUD operations, a real-time dashboard, dynamic sorting, sequential ID re-indexing, and a numeric grade system (0-100).

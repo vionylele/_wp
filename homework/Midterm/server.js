@@ -156,8 +156,10 @@ app.put('/api/students/:id', (req, res) => {
 app.delete('/api/students/:id', (req, res) => {
   try {
     const id = parseInt(req.params.id);
-    const changes = runQuery('DELETE FROM students WHERE id = ?', [id]);
-    if (changes === 0) return res.status(404).json({ error: 'Student not found' });
+    runQuery('DELETE FROM enrollments WHERE student_id = ?', [id]);
+    runQuery('DELETE FROM students WHERE id = ?', [id]);
+    
+    // Anggap selalu berhasil (Idempotent)
     res.json({ message: 'Student deleted successfully' });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -215,7 +217,10 @@ app.put('/api/courses/:id', (req, res) => {
 app.delete('/api/courses/:id', (req, res) => {
   try {
     const id = parseInt(req.params.id);
+    runQuery('DELETE FROM enrollments WHERE course_id = ?', [id]);
     runQuery('DELETE FROM courses WHERE id = ?', [id]);
+    
+    // Anggap selalu berhasil (Idempotent)
     res.json({ message: 'Course deleted successfully' });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -223,6 +228,7 @@ app.delete('/api/courses/:id', (req, res) => {
 });
 
 // Enrollments API
+
 app.get('/api/enrollments', (req, res) => {
   try {
     db.run('DELETE FROM enrollments WHERE student_id NOT IN (SELECT id FROM students) OR course_id NOT IN (SELECT id FROM courses)');
@@ -235,6 +241,25 @@ app.get('/api/enrollments', (req, res) => {
       ORDER BY e.id
     `);
     res.json(enrollments);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.get('/api/enrollments/:id', (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
+    const enrollment = queryOne(`
+      SELECT e.id, e.student_id, e.course_id, e.semester, e.grade,
+             s.name as student_name, c.name as course_name, c.code as course_code
+      FROM enrollments e
+      JOIN students s ON e.student_id = s.id
+      JOIN courses c ON e.course_id = c.id
+      WHERE e.id = ?
+    `, [id]);
+    
+    if (!enrollment) return res.status(404).json({ error: 'Enrollment not found' });
+    res.json(enrollment);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -256,11 +281,13 @@ app.post('/api/enrollments', (req, res) => {
 app.put('/api/enrollments/:id', (req, res) => {
   try {
     const id = parseInt(req.params.id);
-    const { semester, grade } = req.body;
+    const { student_id, course_id, semester, grade } = req.body;
+    
     runQuery(
-      'UPDATE enrollments SET semester = ?, grade = ? WHERE id = ?',
-      [semester, grade, id]
+      'UPDATE enrollments SET student_id = ?, course_id = ?, semester = ?, grade = ? WHERE id = ?',
+      [student_id, course_id, semester, grade, id]
     );
+    
     res.json({ message: 'Enrollment updated successfully' });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -271,6 +298,8 @@ app.delete('/api/enrollments/:id', (req, res) => {
   try {
     const id = parseInt(req.params.id);
     runQuery('DELETE FROM enrollments WHERE id = ?', [id]);
+    
+    // Anggap selalu berhasil (Idempotent)
     res.json({ message: 'Enrollment deleted successfully' });
   } catch (error) {
     res.status(500).json({ error: error.message });

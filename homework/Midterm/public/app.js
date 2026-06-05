@@ -59,6 +59,19 @@ function setupNavigation() {
   });
 }
 
+function showModal(id) {
+  document.getElementById(id).classList.add('show');
+}
+
+function hideModal(id) {
+  document.getElementById(id).classList.remove('show');
+  document.getElementById(id).querySelector('form')?.reset();
+  document.getElementById(id).querySelectorAll('input[type="hidden"]').forEach(i => i.value = '');
+  const titles = { studentModal: 'Add Student', courseModal: 'Add Course', enrollmentModal: 'Add Enrollment' };
+  const titleEl = document.getElementById(id + 'Title');
+  if (titleEl) titleEl.textContent = titles[id] || '';
+}
+
 function setupEventDelegation() {
   document.body.addEventListener('click', (e) => {
     const target = e.target;
@@ -80,10 +93,12 @@ function setupEventDelegation() {
       openEnrollmentModal();
     } else if (button.classList.contains('edit-student')) {
       editStudent(parseInt(button.dataset.id));
-    } else if (button.classList.contains('delete-student')) {
-      deleteStudent(parseInt(button.dataset.id));
+    } else if (button.classList.contains('edit-enrollment')) {
+      editEnrollment(parseInt(button.dataset.id));
     } else if (button.classList.contains('edit-course')) {
       editCourse(parseInt(button.dataset.id));
+    } else if (button.classList.contains('delete-student')) {
+      deleteStudent(parseInt(button.dataset.id));
     } else if (button.classList.contains('delete-course')) {
       deleteCourse(parseInt(button.dataset.id));
     } else if (button.classList.contains('delete-enrollment')) {
@@ -241,6 +256,7 @@ async function loadEnrollments() {
         <td>${e.semester}</td>
         <td>${e.grade !== null && e.grade !== undefined ? e.grade : '-'}</td>
         <td>
+          <button class="btn btn-warning edit-enrollment" data-id="${e.id}">Edit</button>
           <button class="btn btn-danger delete-enrollment" data-id="${e.id}">Delete</button>
         </td>
       </tr>
@@ -293,6 +309,7 @@ function setupForms() {
     loadStudents();
     loadDashboard();
     loadEnrollmentDropdowns();
+    loadEnrollments();
     hideModal('studentModal');
     document.getElementById('studentForm').reset();
   });
@@ -330,15 +347,18 @@ function setupForms() {
     loadCourses();
     loadDashboard();
     loadEnrollmentDropdowns();
+    loadEnrollments();
     hideModal('courseModal');
     document.getElementById('courseForm').reset();
   });
   
   document.getElementById('enrollmentForm').addEventListener('submit', async (e) => {
     e.preventDefault();
+    const id = document.getElementById('enrollmentId').value;
     const studentId = document.getElementById('enrollmentStudent').value;
     const courseId = document.getElementById('enrollmentCourse').value;
     const gradeValue = document.getElementById('enrollmentGrade').value;
+    
     const data = {
       student_id: studentId ? parseInt(studentId) : null,
       course_id: courseId ? parseInt(courseId) : null,
@@ -356,16 +376,35 @@ function setupForms() {
       return;
     }
     
-    const response = await fetch('/api/enrollments', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
-    if (!response.ok) {
-      const errData = await response.json();
-      alert(errData.error || 'Failed to create enrollment');
-      return;
+    const numericId = id ? parseInt(id) : null;
+    
+    if (numericId) {
+      // LOGIKA EDIT (PUT)
+      const response = await fetch('/api/enrollments/' + encodeURIComponent(String(numericId)), {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      if (!response.ok) {
+        const errData = await response.json();
+        alert(errData.error || 'Update failed');
+        hideModal('enrollmentModal');
+        return;
+      }
+    } else {
+      // LOGIKA TAMBAH BARU (POST)
+      const response = await fetch('/api/enrollments', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      if (!response.ok) {
+        const errData = await response.json();
+        alert(errData.error || 'Failed to create enrollment');
+        return;
+      }
     }
+    
     hideModal('enrollmentModal');
     loadEnrollments();
     loadDashboard();
@@ -395,48 +434,6 @@ async function editStudent(id) {
   showModal('studentModal');
 }
 
-async function deleteStudent(id) {
-  if (!confirm('Delete this student?')) return;
-  
-  const rowToDelete = document.querySelector(`.delete-student[data-id="${id}"]`)?.closest('tr');
-  if (rowToDelete) rowToDelete.remove();
-  loadDashboard();
-  
-  try {
-    const endpoint = '/api/students/' + encodeURIComponent(String(id));
-    const response = await fetch(endpoint, {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' }
-    });
-    if (!response.ok) {
-      const err = await response.json();
-      throw new Error(err.error || 'Delete failed');
-    }
-    loadEnrollments();
-    
-    const studentsRes = await fetch('/api/students');
-    const students = await studentsRes.json();
-    for (let i = 0; i < students.length; i++) {
-      const expectedId = i + 1;
-      if (students[i].id !== expectedId) {
-        await fetch('/api/students/' + encodeURIComponent(String(students[i].id)), {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ id: expectedId, name: students[i].name, email: students[i].email, phone: students[i].phone, grade: students[i].grade, enrollment_date: students[i].enrollment_date })
-        });
-      }
-    }
-    await loadStudents();
-  } catch (error) {
-    if (error.message.includes('not found')) {
-      await loadStudents();
-    } else {
-      await loadStudents();
-      alert('Delete error: ' + error.message);
-    }
-  }
-}
-
 async function editCourse(id) {
   const endpoint = '/api/courses/' + encodeURIComponent(String(id));
   const response = await fetch(endpoint, {
@@ -458,12 +455,81 @@ async function editCourse(id) {
   showModal('courseModal');
 }
 
+async function editEnrollment(id) {
+  console.log('1. Tombol edit diklik untuk ID:', id); 
+  
+  try {
+    await loadEnrollmentDropdowns();
+    console.log('2. Dropdown berhasil dimuat');
+
+    const endpoint = '/api/enrollments/' + encodeURIComponent(String(id));
+    console.log('3. Mencoba mengambil data dari:', endpoint);
+    
+    const response = await fetch(endpoint, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' }
+    });
+
+    if (!response.ok) {
+      const errText = await response.text();
+      console.error('Server error response:', errText);
+      alert(`Gagal mengambil data dari server (Status: ${response.status}). Cek console!`);
+      return;
+    }
+
+    const enrollment = await response.json();
+    console.log('4. Data enrollment dari server:', enrollment);
+
+    document.getElementById('enrollmentId').value = enrollment.id;
+    document.getElementById('enrollmentStudent').value = enrollment.student_id;
+    document.getElementById('enrollmentCourse').value = enrollment.course_id;
+    document.getElementById('enrollmentSemester').value = enrollment.semester || '';
+    document.getElementById('enrollmentGrade').value = (enrollment.grade !== null && enrollment.grade !== undefined) ? enrollment.grade : '';
+
+    const titleEl = document.getElementById('enrollmentModalTitle');
+    if (titleEl) titleEl.textContent = 'Edit Enrollment';
+
+    showModal('enrollmentModal');
+    console.log('5. Modal berhasil ditampilkan!');
+
+  } catch (error) {
+    console.error('Terjadi kesalahan sistem:', error);
+    alert('Terjadi kesalahan pada sistem. Silakan periksa Inspect -> Console.');
+  }
+}
+
+async function deleteStudent(id) {
+  if (!confirm('Delete this student?')) return;
+  console.log('1. Menghapus student ID:', id);
+  
+  try {
+    const endpoint = '/api/students/' + encodeURIComponent(String(id));
+    const response = await fetch(endpoint, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' }
+    });
+    
+    if (!response.ok) {
+      const err = await response.json();
+      throw new Error(err.error || 'Delete failed');
+    }
+
+    console.log('2. Berhasil dihapus dari server. Merefresh data layar...');
+    
+    await loadStudents();
+    await loadEnrollments();
+    await loadEnrollmentDropdowns(); 
+    await loadDashboard();
+    
+    console.log('3. Layar berhasil diperbarui!');
+  } catch (error) {
+    alert('Delete error: ' + error.message);
+  }
+}
+
 async function deleteCourse(id) {
   if (!confirm('Delete this course?')) return;
-  
-  const rowToDelete = document.querySelector(`.delete-course[data-id="${id}"]`)?.closest('tr');
-  if (rowToDelete) rowToDelete.remove();
-  loadDashboard();
+  console.log('1. Menghapus course ID:', id);
   
   try {
     const endpoint = '/api/courses/' + encodeURIComponent(String(id));
@@ -471,12 +537,21 @@ async function deleteCourse(id) {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' }
     });
+    
     if (!response.ok) {
       const err = await response.json();
       throw new Error(err.error || 'Delete failed');
     }
-  } catch (error) {
+
+    console.log('2. Berhasil dihapus dari server. Merefresh data layar...');
+    
     await loadCourses();
+    await loadEnrollments();
+    await loadEnrollmentDropdowns(); 
+    await loadDashboard();
+    
+    console.log('3. Layar berhasil diperbarui!');
+  } catch (error) {
     alert('Delete error: ' + error.message);
   }
 }
@@ -484,37 +559,23 @@ async function deleteCourse(id) {
 async function deleteEnrollment(id) {
   if (!confirm('Delete this enrollment?')) return;
   
-  const rowToDelete = document.querySelector(`.delete-enrollment[data-id="${id}"]`)?.closest('tr');
-  if (rowToDelete) rowToDelete.remove();
-  loadDashboard();
-  
   try {
     const endpoint = '/api/enrollments/' + encodeURIComponent(String(id));
     const response = await fetch(endpoint, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' }
     });
+    
     if (!response.ok) {
       const err = await response.json();
       throw new Error(err.error || 'Delete failed');
     }
-  } catch (error) {
+
     await loadEnrollments();
+    await loadDashboard();
+  } catch (error) {
     alert('Delete error: ' + error.message);
   }
-}
-
-function showModal(id) {
-  document.getElementById(id).classList.add('show');
-}
-
-function hideModal(id) {
-  document.getElementById(id).classList.remove('show');
-  document.getElementById(id).querySelector('form')?.reset();
-  document.getElementById(id).querySelectorAll('input[type="hidden"]').forEach(i => i.value = '');
-  const titles = { studentModal: 'Add Student', courseModal: 'Add Course', enrollmentModal: 'Add Enrollment' };
-  const titleEl = document.getElementById(id + 'Title');
-  if (titleEl) titleEl.textContent = titles[id] || '';
 }
 
 async function resetDatabase() {
