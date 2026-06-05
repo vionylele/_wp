@@ -3,7 +3,8 @@
 ---
 
 ## Final Exam Declaration
-- **AI Tool Usage:** Yes, OpenCode (AI-powered Python Code Interpreter) was used to automate the structure, file scanning, and compilation of this portfolio README documentation.
+* **Project Generation:** This project/file was generated using OpenCode.
+* **Automation:** OpenCode (AI-powered Python Code Interpreter) was used to automate the structure, file scanning, and generation of this README documentation.
 
 ## Final Project Description
 (To be added once final exam deliverables are finalized.)
