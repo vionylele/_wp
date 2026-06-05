@@ -1,7 +1,9 @@
 # Homework 07: JavaScript Practical Applications
 
 ## AI and Originality Declaration
-- **AI Tool Usage:** Yes, OpenCode (AI-powered Python Code Interpreter) was used to automate the structure, file scanning, and generation of this README documentation.
+**AI Tool Usage:** 
+-This project/file was generated using OpenCode.
+-OpenCode (AI-powered Python Code Interpreter) was used to automate the structure, file scanning, and generation of this README documentation.
 
 ## Assignment Description
 A collection of JavaScript exercises focusing on practical programming patterns including property access, destructuring assignment, array forEach iteration, URL query parameter parsing, callbacks, JSON parsing, mock database queries, template logic, string sorting, and error handling.
